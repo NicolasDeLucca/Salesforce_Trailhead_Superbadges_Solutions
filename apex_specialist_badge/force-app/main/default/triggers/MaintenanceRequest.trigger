@@ -1,7 +1,13 @@
-trigger MaintenanceRequest on Case (before update, after update)
+trigger MaintenanceRequest on Case (after update)
 {
     List<Case> casesToRefresh = new List<Case>();
     Map<Id, Case> casesToUpdate = Trigger.oldMap;
+
+    List<Product2> equipments = 
+    [
+        SELECT Id, Maintenance_Cycle__c 
+        FROM Product2 
+    ];
     
     for (Case request : Trigger.New)
     {
@@ -10,11 +16,29 @@ trigger MaintenanceRequest on Case (before update, after update)
        {
            if (request.Type == 'Repair' || request.Type == 'Routine Maintenance')
            {
-           	   Case newCase = MaintenanceRequestHelper.Create(request);
-               casesToRefresh.add(newCase);
+                List<Product2> requestEquipments = new List<Product2>();
+                for (Product2 equipment : equipments)
+                {
+                    if (equipment.Id == request.ProductId)
+                        requestEquipments.add(equipment);
+                }
+                
+                if (requestEquipments.size() > 0)
+                {
+                    Product2 associatedEquipment = requestEquipments[0];
+                    for (Product2 equipment : equipments)
+                    {
+                        if (equipment.Maintenance_Cycle__c < associatedEquipment.Maintenance_Cycle__c)
+                            associatedEquipment = equipment;
+                    } 
+                
+                    Case newCase = MaintenanceRequestHelper.Refresh(request, associatedEquipment.Maintenance_Cycle__c);
+                    casesToRefresh.add(newCase);
+                }
            }
        }
     }
     
- 	insert casesToRefresh;
+    insert casesToRefresh;
+    MaintenanceRequestHelper.UpdateEquipmentMaintenanceRequests(casesToRefresh);
 }
