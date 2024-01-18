@@ -39,6 +39,9 @@ trigger MaintenanceRequest on Case (after update)
        }
     }
     
-    insert casesToRefresh;
-    MaintenanceRequestHelper.UpdateEquipmentMaintenanceRequests(casesToRefresh);
+    if (!casesToRefresh.isEmpty())
+    {
+        insert casesToRefresh;
+        MaintenanceRequestHelper.UpdateEquipmentMaintenanceRequests(casesToRefresh);
+    }
 }
