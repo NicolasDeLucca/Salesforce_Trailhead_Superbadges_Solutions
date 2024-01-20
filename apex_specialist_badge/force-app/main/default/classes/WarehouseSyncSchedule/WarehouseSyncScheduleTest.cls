@@ -26,7 +26,8 @@ private class WarehouseSyncScheduleTest
     @isTest static void testCalloutExecutionWithException()
     {
         Test.startTest();
-        //
+        // mock callout to throw exception
+        
         Test.stopTest();
 
         // callout job is not in queue

@@ -90,5 +90,4 @@ public with sharing class WarehouseCalloutService implements Queueable
             update updatedEquipments;
         }
     }
-
 }
