@@ -1,17 +1,17 @@
 @isTest 
-public with sharing class MaintenanceRequestHelperTest
+private class MaintenanceRequestHelperTest
 {
-    @isTest static void requestAlreadyClosedTest()
+    @isTest static void testMaintenanceRequestAlreadyClosed()
     {
         // 
     }
 
-    @isTest static void requestRecentlyClosedTest()
+    @isTest static void testMaintenanceRequestRecentlyClosed()
     {
         // 
     }
 
-    @isTest static void requestRecentlyUnclosedRestateTest()
+    @isTest static void testMaintenanceRequestRecentlyUnclosedRestate()
     {
         // 
     }
