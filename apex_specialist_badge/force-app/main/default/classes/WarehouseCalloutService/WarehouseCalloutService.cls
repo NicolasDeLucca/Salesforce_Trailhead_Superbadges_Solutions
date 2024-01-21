@@ -70,7 +70,6 @@ public with sharing class WarehouseCalloutService implements Queueable
         for (wh_Equipment incomingEquipment : incomingEquipments)
         {
             Product2 existingEquipment = existingEquipmentsMap.get(incomingEquipment.Id);
-
             if (existingEquipment != null)
             {
                 existingEquipment.Name = incomingEquipment.Name;

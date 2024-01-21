@@ -1,7 +1,9 @@
 @isTest
-private class CreateDefaultDataTest {
+private class CreateDefaultDataTest
+{
     @isTest
-    static void createData_test(){
+    static void createData_test()
+    {
         Test.startTest();
         CreateDefaultData.createDefaultData();
         List<Vehicle__c> vehicles = [SELECT Id FROM Vehicle__c];
@@ -17,7 +19,8 @@ private class CreateDefaultDataTest {
     }
 
     @isTest
-    static void updateCustomSetting_test(){
+    static void updateCustomSetting_test()
+    {
         How_We_Roll_Settings__c	customSetting = How_We_Roll_Settings__c.getOrgDefaults();
         customSetting.Is_Data_Created__c = false;
         upsert customSetting;
@@ -28,6 +31,5 @@ private class CreateDefaultDataTest {
         upsert customSetting;
        
         System.assertEquals(true, CreateDefaultData.isDataCreated(), 'The custom setting How_We_Roll_Settings__c.Is_Data_Created__c should be true');
-
     }
 }
