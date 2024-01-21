@@ -86,13 +86,16 @@ public with sharing class MaintenanceRequestHelper
         newRequest.Date_Reported__c = System.today();
         //set the related vehicle
         newRequest.Vehicle__c = c.Vehicle__c;
-        newRequest.ParentId = c.ParentId;
         //set the related equipment
         newRequest.ProductId = c.ProductId;
         //set the due date
-        newRequest.Date_Due__c = newRequest.Date_Reported__c.addDays(
-            equipMaintenanceCycle.intValue()
-        );  
+        newRequest.Date_Due__c = newRequest.Date_Reported__c;
+        if (equipMaintenanceCycle != null)
+        {
+            newRequest.Date_Due__c = newRequest.Date_Due__c.addDays(
+                equipMaintenanceCycle.intValue()
+            );
+        }
         
         return newRequest;
     }
