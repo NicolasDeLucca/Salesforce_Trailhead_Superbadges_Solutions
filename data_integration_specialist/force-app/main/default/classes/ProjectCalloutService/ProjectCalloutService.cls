@@ -47,6 +47,7 @@ public class ProjectCalloutService
             SELECT Id, Name, Account.Name, closeDate, Amount 
             FROM Opportunity 
             WHERE Id = :oppId
+            LIMIT 1
         ];
 
         String jsonOpp = SerializeOpportunity(oppToPost);

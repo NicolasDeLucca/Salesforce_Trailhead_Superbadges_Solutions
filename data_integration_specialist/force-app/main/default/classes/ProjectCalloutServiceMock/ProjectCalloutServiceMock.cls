@@ -1,3 +1,13 @@
-public class ProjectCalloutServiceMock {
-   //Implement http mock callout here
+@isTest
+global class ProjectCalloutServiceMock implements HttpCalloutMock
+{
+   global HTTPResponse respond(HTTPRequest req)
+   {
+       HttpResponse res = new HttpResponse();
+       res.setHeader('Content-Type', 'application/json');
+       res.setStatus('OK');
+       res.setStatusCode(201);
+              
+       return res;
+   }
 }
