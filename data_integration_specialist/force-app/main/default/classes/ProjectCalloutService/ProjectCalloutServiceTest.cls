@@ -4,14 +4,14 @@ private class ProjectCalloutServiceTest
     @testSetup
     static void setUp()
     {
-        // Arrange
+        // Test Arrange
 
         Date today = Date.today();
         String service_Token = 'TOKEN';
         String oppType = 'New Project';
 
         Account acc = new Account();
-        acc.Name = 'Test Account';
+        acc.Name = 'acc';
         insert acc;
         
         ServiceTokens__c servToken = new ServiceTokens__c();

@@ -35,7 +35,7 @@ global class ProjectRESTService
         catch(Exception e)
         {
             Database.rollback(savepoint);
-            result_message = 'Error: ' + e.getMessage();
+            result_message = 'Error - ' + e.getMessage();
         }
         
         return result_message;
