@@ -63,8 +63,9 @@ public class BillingCalloutService
 
         BillingServiceProxy.InvoicesPortSoap11 invoices = new BillingServiceProxy.InvoicesPortSoap11();
         String res = invoices.billProject(proj);
-        
+
         if (res == null || res.toUpperCase() != 'OK')
             throw new System.StringException();
-    }
+
+    } 
 }
