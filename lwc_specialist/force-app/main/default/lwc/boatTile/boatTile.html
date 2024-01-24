@@ -11,9 +11,6 @@
         {boat.Contact__r.Name}
       </h2>
       <div class="slds-text-body_small">
-        Type: {boat.BoatType__r.Name}
-      </div>
-      <div class="slds-text-body_small">
         Price: <lightning-formatted-number 
                   value={boat.Price__c} 
                   maximum-fraction-digits="2">
@@ -21,6 +18,10 @@
       </div>
       <div class="slds-text-body_small">
         Length: {boat.Length__c}
+      </div>
+      
+      <div class="slds-text-body_small">
+        Type: {boat.BoatType__r.Name}
       </div>
     </div>
   </div>

@@ -1,4 +1,5 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, wire} from 'lwc';
+import { MessageContext } from 'lightning/messageService';
 
 const SUCCESS_TITLE = 'Success';
 const MESSAGE_SHIP_IT = 'Ship it!';
@@ -14,8 +15,9 @@ export default class BoatSearchResults extends LightningElement
   boats;
   isLoading = false;
   
-  // wired message context
+  @wire(MessageContext)
   messageContext;
+
   // wired getBoats method 
   wiredBoats(result)
   { 
@@ -57,7 +59,7 @@ export default class BoatSearchResults extends LightningElement
   {
     // notify loading
     const updatedFields = event.detail.draftValues;
-    // Update the records via Apex
+
     updateBoatList({data: updatedFields})
     .then(() => {})
     .catch(error => {})
@@ -65,5 +67,8 @@ export default class BoatSearchResults extends LightningElement
   }
 
   // Check the current value of isLoading before dispatching the doneloading or loading custom event
-  notifyLoading(isLoading) { }
+  notifyLoading(isLoading)
+  { 
+    
+  }
 }

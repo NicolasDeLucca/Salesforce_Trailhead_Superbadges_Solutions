@@ -4,14 +4,12 @@ import getBoatTypes from '@salesforce/apex/BoatDataService.getBoatTypes';
 export default class BoatSearchForm extends LightningElement
 {
   selectedBoatTypeId = '';
-  
-  // Private
   error = undefined;
   
   @track
   searchOptions;
   
-  // Wire a custom Apex method
+
   @wire(getBoatTypes)
   boatTypes({ error, data })
   {
@@ -35,12 +33,10 @@ export default class BoatSearchForm extends LightningElement
      }
   }
   
-  // Fires event that the search option has changed.
-  // passes boatTypeId (value of this.selectedBoatTypeId) in the detail
+
   handleSearchOptionChange(event)
   {
     this.selectedBoatTypeId = event.detail.value;
-    // Create the const searchEvent
     const searchEvent = new CustomEvent(
       'search', 
       {
