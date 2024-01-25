@@ -1,7 +1,7 @@
 import { LightningElement, api } from 'lwc';
 
-const SELECTED_TILE_WRAPPER = 'tile-wrapper selected';
-const UNSELECTED_TILE_WRAPPER = 'tile-wrapper';
+const TILE_WRAPPER_SELECTED_CLASS = 'tile-wrapper selected';
+const TILE_WRAPPER_UNSELECTED_CLASS = 'tile-wrapper';
 
 export default class BoatTile extends LightningElement
 {
@@ -19,9 +19,9 @@ export default class BoatTile extends LightningElement
   get tileClass()
   { 
     if (this.boat.Id == this.selectedBoatId)
-       return SELECTED_TILE_WRAPPER;
+       return TILE_WRAPPER_SELECTED_CLASS;
 
-    return UNSELECTED_TILE_WRAPPER;
+    return TILE_WRAPPER_UNSELECTED_CLASS;
   }
   
   selectBoat()

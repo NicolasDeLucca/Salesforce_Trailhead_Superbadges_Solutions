@@ -1,4 +1,4 @@
-import BoatMC from '@salesforce/messageChannel/BoatMessageChannel__c';
+import BOATMC from '@salesforce/messageChannel/BoatMessageChannel__c';
 import { getRecord } from 'lightning/uiRecordApi';
 import { subscribe, APPLICATION_SCOPE, MessageContext } from 'lightning/messageService';
 import { wire, api, LightningElement } from 'lwc';
@@ -43,7 +43,7 @@ export default class BoatMap extends LightningElement
 
     this.subscription = subscribe(
       this.messageContext,
-      BoatMC,
+      BOATMC,
       (message) => { this.boatId = message.recordId },
       { scope: APPLICATION_SCOPE }
     );
