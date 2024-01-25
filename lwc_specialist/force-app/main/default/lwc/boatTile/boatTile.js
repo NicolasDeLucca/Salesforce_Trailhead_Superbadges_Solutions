@@ -1,9 +1,7 @@
 import { LightningElement, api } from 'lwc';
 
-// style properties
-const BACKGROUND_IMAGE_PARAMETER = 'background-image';
-const TILE_CLASS = 'tile-wrapper';
-const SELECTED = 'selected';
+const SELECTED_TILE_WRAPPER = 'tile-wrapper selected';
+const UNSELECTED_TILE_WRAPPER = 'tile-wrapper';
 
 export default class BoatTile extends LightningElement
 {
@@ -15,38 +13,26 @@ export default class BoatTile extends LightningElement
 
   get backgroundStyle()
   { 
-    picture = this.boat.Picture__c;
-    return `${this.backgroundImage(picture)}`;
+     return 'background-image:url(' + `${this.boat.Picture__c}` + ')';
   }
   
   get tileClass()
   { 
-    tileClass = TILE_CLASS;
-
     if (this.boat.Id == this.selectedBoatId)
-       tileClass += `${SELECTED}`;
+       return SELECTED_TILE_WRAPPER;
 
-    return tileClass;
+    return UNSELECTED_TILE_WRAPPER;
   }
   
   selectBoat()
   { 
     this.selectedBoatId = this.boat.Id;
-    const boatselect  = new CustomEvent('boatselect', 
+    
+    const boatselect = new CustomEvent('boatselect', 
     {
-      detail:
-      {
-        boatId: this.selectedBoatId
-      }
+      detail: { boatId: this.boat.Id },
     });
     
     this.dispatchEvent(boatselect);
-  }
-
-  // helper methods
-
-  backgroundImage(url)
-  {
-    return BACKGROUND_IMAGE_PARAMETER + ':url(' + `${url}` + ')';
   }
 }
