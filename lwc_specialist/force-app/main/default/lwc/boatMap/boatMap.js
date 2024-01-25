@@ -1,7 +1,7 @@
 import BoatMC from '@salesforce/messageChannel/BoatMessageChannel__c';
 import { getRecord } from 'lightning/uiRecordApi';
-import { MessageContext } from 'lightning/messageService';
-import { wire, api } from 'lwc';
+import { subscribe, APPLICATION_SCOPE, MessageContext } from 'lightning/messageService';
+import { wire, api, LightningElement } from 'lwc';
 
 const LONGITUDE_FIELD = 'Boat__c.Geolocation__Longitude__s';
 const LATITUDE_FIELD = 'Boat__c.Geolocation__Latitude__s';
