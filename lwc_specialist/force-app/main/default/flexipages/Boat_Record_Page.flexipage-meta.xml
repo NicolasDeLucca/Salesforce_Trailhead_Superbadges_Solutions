@@ -8,6 +8,10 @@
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>enableActionsConfiguration</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>hideChatterActions</name>
                     <value>false</value>
                 </componentInstanceProperties>
@@ -105,6 +109,42 @@
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>boatMap</componentName>
+                <identifier>c_boatMap</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>similarBy</name>
+                    <value>Type</value>
+                </componentInstanceProperties>
+                <componentName>similarBoats</componentName>
+                <identifier>c_similarBoats</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>similarBy</name>
+                    <value>Price</value>
+                </componentInstanceProperties>
+                <componentName>similarBoats</componentName>
+                <identifier>c_similarBoats2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>similarBy</name>
+                    <value>Length</value>
+                </componentInstanceProperties>
+                <componentName>similarBoats</componentName>
+                <identifier>c_similarBoats3</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>sidebar</name>
         <type>Region</type>
     </flexiPageRegions>
