@@ -5,7 +5,7 @@
         <name>Book_Count_Assignment</name>
         <label>Book Count Assignment</label>
         <locationX>1045</locationX>
-        <locationY>290</locationY>
+        <locationY>297</locationY>
         <assignmentItems>
             <assignToReference>varBooksAdded</assignToReference>
             <operator>Add</operator>
@@ -21,7 +21,7 @@
         <name>Book_Order_Line_Item_Record_Collection_Variable_Assignment</name>
         <label>Book Order Line Item Record Collection Variable Assignment</label>
         <locationX>1045</locationX>
-        <locationY>70</locationY>
+        <locationY>69</locationY>
         <assignmentItems>
             <assignToReference>varBookLineItemCollection</assignToReference>
             <operator>Add</operator>
@@ -66,10 +66,10 @@
     <decisions>
         <name>Add_More_Books_Decision</name>
         <label>Add More Books Decision</label>
-        <locationX>719</locationX>
-        <locationY>292</locationY>
+        <locationX>722</locationX>
+        <locationY>299</locationY>
         <defaultConnector>
-            <targetReference>Create_Book_Order_Line_Items</targetReference>
+            <targetReference>How_Many_Books_in_the_Order</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Finished</defaultConnectorLabel>
         <rules>
@@ -88,6 +88,54 @@
             <label>More Books</label>
         </rules>
     </decisions>
+    <decisions>
+        <description>Create tasks relating to certain orders.</description>
+        <name>How_Many_Books_in_the_Order</name>
+        <label>How Many Books in the Order?</label>
+        <locationX>722</locationX>
+        <locationY>557</locationY>
+        <defaultConnector>
+            <targetReference>Create_Book_Order_Line_Items</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>HasThreeOrFourBooks</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>varBooksAdded</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>3.0</numberValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>varBooksAdded</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>4.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Add_Bookmark</targetReference>
+            </connector>
+            <label>HasThreeOrFourBooks</label>
+        </rules>
+        <rules>
+            <name>HasFiveOrMoreBooks</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>varBooksAdded</leftValueReference>
+                <operator>GreaterThanOrEqualTo</operator>
+                <rightValue>
+                    <numberValue>5.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Add_Bookmark_and_Sticker</targetReference>
+            </connector>
+            <label>HasFiveOrMoreBooks</label>
+        </rules>
+    </decisions>
     <dynamicChoiceSets>
         <name>BookCollectionChoiceSet</name>
         <collectionReference>Get_Books</collectionReference>
@@ -97,6 +145,12 @@
         <valueField>Id</valueField>
     </dynamicChoiceSets>
     <environments>Default</environments>
+    <formulas>
+        <description>Turnaround time to complete the task to 24 hours for activity date</description>
+        <name>DueDate</name>
+        <dataType>Date</dataType>
+        <expression>{!$Flow.CurrentDate}+1</expression>
+    </formulas>
     <interviewLabel>Book Order Screen Flow {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Book Order</label>
     <processMetadataValues>
@@ -118,6 +172,70 @@
         </value>
     </processMetadataValues>
     <processType>Flow</processType>
+    <recordCreates>
+        <name>Add_Bookmark</name>
+        <label>Add Bookmark</label>
+        <locationX>487</locationX>
+        <locationY>557</locationY>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>DueDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <elementReference>Get_Records_for_Queue.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <stringValue>Add Bookmark</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhatId</field>
+            <value>
+                <elementReference>Create_Book_Order</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Add_Bookmark_and_Sticker</name>
+        <label>Add Bookmark and Sticker</label>
+        <locationX>928</locationX>
+        <locationY>556</locationY>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>DueDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <elementReference>Get_Records_for_Queue.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <stringValue>Add Bookmark and Sticker</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhatId</field>
+            <value>
+                <elementReference>Create_Book_Order</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
     <recordCreates>
         <name>Create_Book_Order</name>
         <label>Create Book Order</label>
@@ -150,8 +268,8 @@
     <recordCreates>
         <name>Create_Book_Order_Line_Items</name>
         <label>Create Book Order Line Items</label>
-        <locationX>541</locationX>
-        <locationY>297</locationY>
+        <locationX>730</locationX>
+        <locationY>725</locationY>
         <connector>
             <targetReference>Confirmation_Screen</targetReference>
         </connector>
@@ -176,8 +294,8 @@
     <recordLookups>
         <name>Get_Records_for_Queue</name>
         <label>Get Records for Queue</label>
-        <locationX>255</locationX>
-        <locationY>297</locationY>
+        <locationX>374</locationX>
+        <locationY>811</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_QA_Task_for_Book_Order</targetReference>
@@ -204,8 +322,8 @@
     <screens>
         <name>Confirmation_Screen</name>
         <label>Confirmation Screen</label>
-        <locationX>394</locationX>
-        <locationY>297</locationY>
+        <locationX>564</locationX>
+        <locationY>812</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -242,6 +360,7 @@
             <dataType>String</dataType>
             <fieldText>Selection(s)</fieldText>
             <fieldType>RadioButtons</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <fields>
@@ -309,8 +428,8 @@
     <subflows>
         <name>Create_QA_Task_for_Book_Order</name>
         <label>Create QA Task for Book Order</label>
-        <locationX>255</locationX>
-        <locationY>540</locationY>
+        <locationX>258</locationX>
+        <locationY>810</locationY>
         <flowName>Create_QA_Task_for_Book_Order</flowName>
         <inputAssignments>
             <name>varQATeamQueue</name>
