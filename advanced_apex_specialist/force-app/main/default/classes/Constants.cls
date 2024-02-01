@@ -35,4 +35,10 @@ public class Constants
 
     public static final Id STANDARD_PRICEBOOK_ID = Test.isRunningTest() ? Test.getStandardPricebookId() 
         : pricebookId; 
+    
+    // An Integer used to define default order items unit prices in test code.
+    public static final Decimal DEFAULT_UNIT_PRICE = 100;
+
+    // An Integer used to define default product initials inventories in test code.
+    public static final Integer DEFAULT_INITIAL_INVENTORY = 10;
 }
