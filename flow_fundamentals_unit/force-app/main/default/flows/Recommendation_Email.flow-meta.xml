@@ -4,7 +4,7 @@
         <name>Email_Recommendation</name>
         <label>Email Recommendation</label>
         <locationX>777</locationX>
-        <locationY>507</locationY>
+        <locationY>505</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -26,7 +26,7 @@
         <inputParameters>
             <name>emailBody</name>
             <value>
-                <elementReference>EmailBodyOnScreen</elementReference>
+                <elementReference>EmailBody</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -42,8 +42,8 @@
     <assignments>
         <name>Update_Contact</name>
         <label>Update Contact</label>
-        <locationX>943</locationX>
-        <locationY>507</locationY>
+        <locationX>777</locationX>
+        <locationY>699</locationY>
         <assignmentItems>
             <assignToReference>Get_Customer_Info.Last_Outreach__c</assignToReference>
             <operator>Assign</operator>
@@ -103,8 +103,8 @@
         <description>Updates the Contact record to add the date and time of this communication in the Last Outreach field.</description>
         <name>Last_Outreach_Contact_Update</name>
         <label>Last Outreach Contact Update</label>
-        <locationX>1084</locationX>
-        <locationY>507</locationY>
+        <locationX>777</locationX>
+        <locationY>878</locationY>
         <connector>
             <targetReference>Confirmation_Screen</targetReference>
         </connector>
@@ -113,8 +113,8 @@
     <screens>
         <name>Confirmation_Screen</name>
         <label>Confirmation Screen</label>
-        <locationX>1226</locationX>
-        <locationY>508</locationY>
+        <locationX>777</locationX>
+        <locationY>1080</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -130,7 +130,7 @@
         <name>Email_Body_Display</name>
         <label>Email Body Display</label>
         <locationX>777</locationX>
-        <locationY>351</locationY>
+        <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -139,14 +139,14 @@
         </connector>
         <fields>
             <name>EmailBodyOnScreen</name>
-            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;Hello {!Get_Customer_Info.FirstName},&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;{!EmailBody}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;{!Get_Customer_Info.Title}:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;u&gt;Book Title:&lt;/u&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;{!Get_Customer_Info.Current_Recommendation__r.Name}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;u&gt;Book Author&lt;/u&gt;:&lt;/p&gt;&lt;p&gt;{!Get_Customer_Info.Current_Recommendation__r.Author__c}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;u&gt;Book Summary:&lt;/u&gt;&lt;/p&gt;&lt;p&gt;{!Get_Customer_Info.Current_Recommendation__r.Book_Summary__c}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Regards&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;{!EmailBody}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>651</locationX>
+        <locationX>652</locationX>
         <locationY>50</locationY>
         <connector>
             <targetReference>Get_Customer_Info</targetReference>
@@ -156,7 +156,7 @@
     <textTemplates>
         <name>EmailBody</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>
-        <text>&lt;p&gt;Dear Customer,&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Thanks for being a customer of Dreamscape Bookshop! We also like the books you bought recently, and we&apos;ve got another one like it that we think you&apos;ll love! Check it out!&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</text>
+        <text>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;Dear {!Get_Customer_Info.FirstName},&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;{!Get_Customer_Info.Title}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;{!Get_Customer_Info.Current_Recommendation__r.Name}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;{!Get_Customer_Info.Current_Recommendation__r.Author__c}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;{!Get_Customer_Info.Current_Recommendation__r.Book_Summary__c}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Regards&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</text>
     </textTemplates>
     <variables>
         <name>currentCustomerID</name>
