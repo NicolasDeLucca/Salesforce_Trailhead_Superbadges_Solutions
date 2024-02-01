@@ -197,4 +197,12 @@ public class TestDataFactory
         List<OrderItem> newOrderItems = ConstructOrderItems(cnt, newPricebookEntries, newOrders);  
         insert newOrderItems;
     }
+
+    // verify that the Quantity Ordered field is correctly updated on Products when Orders are activated
+    public static void VerifyQuantityOrdered(Product2 originalProduct, Product2 updatedProduct, Integer qtyOrdered)
+    {
+        Integer sumQty = Integer.valueOf(originalProduct.Quantity_Ordered__c) + qtyOrdered;
+        System.assertEquals(updatedProduct.Quantity_Ordered__c, sumQty);
+    }
+
 }
