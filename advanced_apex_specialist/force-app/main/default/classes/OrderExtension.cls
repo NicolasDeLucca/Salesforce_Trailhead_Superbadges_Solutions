@@ -5,7 +5,6 @@
 
 public class OrderExtension
 {
-    ApexPages.StandardController standardController;
     ApexPages.StandardSetController standardSetController;
 
     public Order orderRecord { get; set; }
@@ -17,7 +16,6 @@ public class OrderExtension
 
     public OrderExtension(ApexPages.StandardController standardController)
     {
-        this.standardController = standardController;
         this.orderRecord = (Order) standardController.getRecord();
         this.orderItemMap = new Map<Id, OrderItem>();
         
@@ -25,7 +23,9 @@ public class OrderExtension
             this.orderRecord = queryOrderRecord(this.orderRecord.Id);
 
         this.refreshSetController();
-        this.populateTotalAndPieData();
+
+        List<OrderItem> orderRecordItems = this.orderRecord.OrderItems;
+        this.populateTotalAndPieData(orderRecordItems);
         this.populateOrderItems();    
     }
 
@@ -35,11 +35,12 @@ public class OrderExtension
     **/
 
     public void OnFieldChange()
-    {
-        for (OrderItem ordItem : this.orderItemList)
+    {  
+        for (OrderItem ordItem : this.orderItemList) 
             this.orderItemMap.put(ordItem.Product2Id, ordItem);
         
-        this.populateTotalAndPieData();
+        List<OrderItem> orderItems = this.orderItemMap.values();
+        this.populateTotalAndPieData(orderItems);
     }
 
     /**
@@ -196,8 +197,21 @@ public class OrderExtension
 
     public List<SelectOption> GetFamilyOptions()
     {
-        Product2Extension pdctExt = new Product2Extension(this.standardController);
-        return pdctExt.GetFamilyOptions();
+        List<SelectOption> familyOptions = new List<SelectOption>();
+        SelectOption defaultOption = new SelectOption(Constants.SELECT_ONE, Constants.SELECT_ONE);
+        familyOptions.add(defaultOption);
+
+        List<Schema.PicklistEntry> picklistValues = Constants.PRODUCT_FAMILY;
+        for (Schema.PicklistEntry pv : picklistValues)
+        {
+            String label = pv.getLabel();
+            String value = pv.getValue();
+            SelectOption newSelectOption = new SelectOption(label, value);
+
+            familyOptions.add(newSelectOption);
+        }
+
+        return familyOptions;
     }
 
     /**
@@ -223,8 +237,30 @@ public class OrderExtension
     // helper methods
 
     /**
+     * @name refreshSetController
+     * @description
+    **/
+
+    private void refreshSetController()
+    {
+        String pbEntryQuery = 
+            'SELECT Name, UnitPrice, Product2Id, Product2.Name, Product2.Family, Product2.Quantity_Remaining__c ' +
+            'FROM PricebookEntry ' +
+            'WHERE IsActive = True';
+    
+        if (this.selectedFamily != null && this.selectedFamily != Constants.SELECT_ONE)
+            pbEntryQuery += ' AND Product2.Family = \'' + this.selectedFamily + '\'';
+        pbEntryQuery += ' ORDER BY Name';
+    
+        Database.QueryLocator qryLocator = Database.getQueryLocator(pbEntryQuery);
+
+        this.standardSetController = new ApexPages.StandardSetController(qryLocator);
+        this.standardSetController.setPageSize(Constants.DEFAULT_ROWS);
+    }
+
+    /**
      * @name populateOrderItems
-     * @description This method loads orderItems that we will call after pagination and/or family selection
+     * @description This method loads orderItems that we will call after pagination and family selection
     **/
 
     private void populateOrderItems()
@@ -235,9 +271,9 @@ public class OrderExtension
         {
           PricebookEntry pbEntry = (PricebookEntry) sObj;
           Id productId = pbEntry.Product2Id;
-          OrderItem relatedItem = orderItemMap.get(productId);
+          OrderItem relatedItem = this.orderItemMap.get(productId);
           
-          if (orderItemMap.containsKey(productId))
+          if (this.orderItemMap.containsKey(productId))
             this.orderItemList.add(relatedItem);
           else
           {
@@ -260,12 +296,11 @@ public class OrderExtension
      * @description This method keeps track of changes to values in the Quantity or Unit Price fields
     **/
 
-    private void populateTotalAndPieData()
+    private void populateTotalAndPieData(List<OrderItem> orderItems)
     {
         this.total = 0;
         this.pieData = new List<chartHelper.chartData>();
 
-        List<OrderItem> orderItems = this.orderItemMap.values();
         for (OrderItem ordItem : orderItems)
         {
             if (ordItem.Quantity > 0)
@@ -279,28 +314,6 @@ public class OrderExtension
               this.total += totalPrice;
             }
         }
-    }
-
-    /**
-     * @name refreshSetController
-     * @description
-    **/
-
-    private void refreshSetController()
-    {
-        String pbEntryQuery = 
-            'SELECT Name, UnitPrice, Product2Id, Product2.Name, Product2.Family, Product2.Quantity_Remaining__c ' +
-            'FROM PricebookEntry ' +
-            'WHERE IsActive = TRUE';
-    
-        if (this.selectedFamily != null && this.selectedFamily != Constants.SELECT_ONE)
-            pbEntryQuery += ' AND Product2.Family = \'' + this.selectedFamily + '\'';
-        pbEntryQuery += ' ORDER BY Name';
-    
-        Database.QueryLocator qryLocator = Database.getQueryLocator(pbEntryQuery);
-
-        this.standardSetController = new ApexPages.StandardSetController(qryLocator);
-        this.standardSetController.setPageSize(Constants.DEFAULT_ROWS);
     }
 
 }
