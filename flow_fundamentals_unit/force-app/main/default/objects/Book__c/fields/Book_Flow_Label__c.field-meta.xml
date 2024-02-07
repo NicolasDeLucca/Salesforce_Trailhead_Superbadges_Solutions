@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Book_Flow_Label__c</fullName>
+    <externalId>false</externalId>
+    <formula>Name &amp; &quot; by &quot; &amp;  Author__c  &amp; &quot; (&quot; &amp;  TEXT(Genre__c) &amp; &quot;)&quot;</formula>
+    <label>Book Flow Label</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
