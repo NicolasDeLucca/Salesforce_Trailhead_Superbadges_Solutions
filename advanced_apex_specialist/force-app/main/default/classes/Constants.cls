@@ -23,18 +23,17 @@ public class Constants
 
     // A String used to display user friendly error messages on Visualforce pages.
     public static final String ERROR_MESSAGE = 'An error has occurred, please take a screenshot with the URL and send it to IT.';
-
-    // An Id used to create Orders and PricebookEntries in business and test code.
-    private static Id pricebookId =
+    
+    private static List<Pricebook2> pricebooks =
     [
         SELECT Id 
         FROM PRICEBOOK2 
-        WHERE ISSTANDARD = TRUE 
-        LIMIT 1
-    ].Id;
-
-    public static final Id STANDARD_PRICEBOOK_ID = Test.isRunningTest() ? Test.getStandardPricebookId() 
-        : pricebookId; 
+        WHERE ISSTANDARD = TRUE
+    ];
+    
+	// An Id used to create Orders and PricebookEntries in business and test code.
+    public static final Id STANDARD_PRICEBOOK_ID = Test.isRunningTest() ? Test.getStandardPricebookId():
+    	pricebooks.size() > 0 ? pricebooks[0].Id : null; 
     
     // An Integer used to define default order items unit prices in test code.
     public static final Decimal DEFAULT_UNIT_PRICE = 100;
