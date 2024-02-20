@@ -1,11 +1,12 @@
 @isTest
 private class OrderTests
 {
+    private static final Integer RECORDS_LIST_SIZE = 3;
+
     @testSetup
     static void SetupTestData()
     {
-        Integer recordsListSize = 3;
-        TestDataFactory.InsertTestData(recordsListSize);
+        TestDataFactory.InsertTestData(RECORDS_LIST_SIZE);
     }
     
     @isTest
@@ -31,13 +32,13 @@ private class OrderTests
             FROM Product2
         ];
         
-        for (Integer i=0; i < updatedProducts.size(); i++)
+        for (Integer i = 0; i < updatedProducts.size(); i++)
         {
             Product2 pToUpdate = productsToUpdate[i];
             Product2 updatedP = updatedProducts[i];
-
+    
             TestDataFactory.VerifyQuantityOrdered(pToUpdate, updatedP, constants.DEFAULT_ROWS);
-        }
+        }            
 
         // -----
 
@@ -54,14 +55,55 @@ private class OrderTests
 
         List<Order> ordersToUpdate = new List<Order>();
 
-        for (Integer i=0; i < retrievedOrders.size(); i ++)
+        for (Integer i = 0; i < retrievedOrders.size(); i ++)
         {
             Order ord = retrievedOrders[i];
             ord.Status = Constants.ACTIVATED_ORDER_STATUS;
 
             ordersToUpdate.add(ord);
         }
+	
+        if (ordersToUpdate.size() > 0)
+       		update ordersToUpdate;
+    }
 
-        update ordersToUpdate;
+    @isTest
+    static void OrderExtension_UnitTest()
+    {
+        Test.startTest();
+        Test.setCurrentPage(Page.OrderEdit);
+        
+        //-----
+
+        Order ord = 
+        [
+            SELECT Id, Status 
+            FROM Order 
+            LIMIT 1
+        ];
+        
+        ApexPages.StandardController controller = new ApexPages.StandardController(ord);
+        OrderExtension ext = new OrderExtension(controller);
+
+        System.assert(ext.orderItemList != null);
+        System.assertEquals(ext.orderItemList.size(), RECORDS_LIST_SIZE);
+
+        ext.OnFieldChange();
+        ext.SelectFamily();
+        ext.Save();
+        ext.First();
+        ext.Next();
+        ext.Previous();
+        ext.Last();
+        ext.GetHasPrevious();
+        ext.GetHasNext();
+        ext.GetTotalPages();
+        ext.GetPageNumber();
+        ext.GetFamilyOptions();
+        OrderExtension.QueryOrderRecord(ord.Id);
+
+        //-----
+
+        Test.stopTest();
     }
 }
